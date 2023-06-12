@@ -38,37 +38,33 @@ text_label.pack(fill='x',padx=5,pady=5)
 option_frame=tk.Frame(content_frame,bg='white',)
 option_frame.pack(fill='both',side=tk.LEFT,padx=5,pady=5)
 
-
-#cubys_logo=tk.PhotoImage(file='CubysLogo.png')
-#cubys_logo=cubys_logo.subsample(3,3)
-
-cubys_logo=Image.open("CubysLogo.png")
+cubys_logo=Image.open("Gallery/CubysLogo.png")
 cubys_logo=cubys_logo.resize((300,160),Image.ANTIALIAS)
 cubys_logo=ImageTk.PhotoImage(cubys_logo)
 
-#pong_logo=tk.PhotoImage(file='pong.png')
+#pong_logo=tk.PhotoImage(file=' Gallery/pong.png')
 #pong_logo=pong_logo.subsample(2,2)
-pong_logo=Image.open("pong.png")
+pong_logo=Image.open("Gallery/pong.png")
 pong_logo=pong_logo.resize((150,150),Image.ANTIALIAS)
 pong_logo=ImageTk.PhotoImage(pong_logo)
 
-#flappy_logo=tk.PhotoImage(file='flappybird.png')
+#flappy_logo=tk.PhotoImage(file='Gallery/flappybird.png')
 #flappy_logo=flappy_logo.subsample(2,2)
-flappy_logo=Image.open("flappybird.png")
+flappy_logo=Image.open("Gallery/flappybird.png")
 flappy_logo=flappy_logo.resize((150,150),Image.ANTIALIAS)
 flappy_logo=ImageTk.PhotoImage(flappy_logo)
 mini_frame=tk.Frame(option_frame,bg='white',)
 mini_frame.pack(fill='x',side=tk.TOP,padx=2,pady=2)
 
-player_icon=tk.PhotoImage(file='p2.png')
+player_icon=tk.PhotoImage(file='Gallery/p2.png')
 player_icon=player_icon.subsample(4,4)
 icon_label=tk.Label(option_frame,image=player_icon)
 icon_label.pack(fill='x',side=tk.TOP)
 
-edit_icon=tk.PhotoImage(file='edit.png')
+edit_icon=tk.PhotoImage(file='Gallery/edit.png')
 edit_icon=edit_icon.subsample(5,5)
 
-save_icon=tk.PhotoImage(file='save.png')
+save_icon=tk.PhotoImage(file='Gallery/save.png')
 save_icon=save_icon.subsample(5,5)
 
 name_frame=tk.Frame(option_frame,bg='white',)
