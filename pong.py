@@ -72,7 +72,7 @@ paddle_b.goto(350, 0)
 # Ball
 ball = turtle.Turtle()
 ball.speed(0)
-ball.shape("square")
+ball.shape("circle")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
@@ -89,7 +89,6 @@ pen.hideturtle()
 pen.goto(0, 315)
 pen.write("Player A: 0  Player B: 0", align="center", font=("Courier", 24, "normal"))
 
-
 # Functions
 def paddle_a_up():
     y = paddle_a.ycor()
@@ -97,13 +96,11 @@ def paddle_a_up():
         y += 20
     paddle_a.sety(y)
 
-
 def paddle_a_down():
     y = paddle_a.ycor()
     if y>-241:
         y -= 20
     paddle_a.sety(y)
-
 
 def paddle_b_up():
     y = paddle_b.ycor()
@@ -111,13 +108,11 @@ def paddle_b_up():
         y += 20
     paddle_b.sety(y)
 
-
 def paddle_b_down():
     y = paddle_b.ycor()
     if y>-241:
         y -= 20
     paddle_b.sety(y)
-
 
 # Keyboard bindings
 wn.listen()
@@ -129,13 +124,11 @@ wn.onkeypress(paddle_b_down, "Down")
 # Main game loop
 while True:
     wn.update()
-
     # Move the ball
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
     # Border checking
-
     # Top and bottom
     if ball.ycor() > 300:
         winsound.PlaySound(bounce_audio, winsound.SND_ASYNC)
@@ -147,7 +140,6 @@ while True:
         ball.sety(-300)
         ball.dy *= -1
         
-
     # Left and right
     if ball.xcor() > 370:
         winsound.PlaySound(bonus_audio, winsound.SND_ASYNC)
@@ -157,7 +149,6 @@ while True:
         ball.goto(0, 0)
         ball.dx *= -1
         
-
     elif ball.xcor() < -370:
         winsound.PlaySound(bonus_audio, winsound.SND_ASYNC)
         score_b += 1
@@ -166,13 +157,11 @@ while True:
         ball.goto(0, 0)
         ball.dx *= -1
         
-
     # Paddle and ball collisions
     if ball.xcor() < -330 and ball.xcor() > -340 and ball.ycor() < paddle_a.ycor() + 50 and ball.ycor() > paddle_a.ycor() - 50:
         winsound.PlaySound(bounce_audio, winsound.SND_ASYNC)
         ball.setx(-330)
         ball.dx *= -1
-        
 
     elif ball.xcor() > 330 and ball.xcor() < 340 and ball.ycor() < paddle_b.ycor() + 50 and ball.ycor() > paddle_b.ycor() - 50:
         winsound.PlaySound(bounce_audio, winsound.SND_ASYNC)

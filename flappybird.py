@@ -227,6 +227,6 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN and flying == False and game_over == False:
             flying = True
 
-    pygame.display.update() # updates everything thats has happened
+    pygame.display.update() # updates everything that has happened
 
 pygame.quit()
