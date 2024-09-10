@@ -32,9 +32,9 @@ score = 0
 pass_pipe = False
 
 # load images
-bg = pygame.image.load('Gallery/Sprites/bg.png')
-ground_img = pygame.image.load('Gallery/Sprites/Extra/ground1.png.png')
-button_img = pygame.image.load('Gallery/Sprites/restart (1).png')
+bg = pygame.image.load('Media/Sprites/Flappy/bg.png')
+ground_img = pygame.image.load('Media/Sprites/Flappy/Extra/ground1.png.png')
+button_img = pygame.image.load('Media/Sprites/Flappy/restart (1).png')
 
 
 def draw_text(text, font, text_col, x, y):  # A fn for score of the user
@@ -57,7 +57,7 @@ class Bird(pygame.sprite.Sprite):  # Here we are using sprite class
         self.index = 0          # index is of the 'images' list which has 3 birds
         self.counter = 0  # it will control the speed of animation which is swapping from bird1 to bird2 to bird3
         for num in range(1, 4):  # range b/w 1-4 i.e. 3 as we've 3 images
-            img = pygame.image.load(f'Gallery/Sprites/bird{num}.png')  # f stands for format of the string as we want
+            img = pygame.image.load(f'Media/Sprites/Flappy/bird{num}.png')  # f stands for format of the string as we want
             self.images.append(img)
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
@@ -107,7 +107,7 @@ class Bird(pygame.sprite.Sprite):  # Here we are using sprite class
 class Pipe(pygame.sprite.Sprite):
     def __init__(self, x, y, position):
         pygame.sprite.Sprite.__init__(self) #inheriting sprite functions from Sprite class
-        self.image = pygame.image.load('Gallery/Sprites/pipe (1).png')
+        self.image = pygame.image.load('Media/Sprites/Flappy/pipe (1).png')
         self.rect = self.image.get_rect()  # Creates rectangle boundary around it
         # position 1 is from the top and -1 from the bottom
         if position == 1:

@@ -2,6 +2,9 @@
 import turtle
 import winsound
 
+bounce_audio="Media/Audios/Pong/bounce.wav"
+bonus_audio="Media/Audios/Pong/bonus.wav"
+
 wn = turtle.Screen()
 wn.title("Pong")
 wn.bgcolor("black")
@@ -135,41 +138,43 @@ while True:
 
     # Top and bottom
     if ball.ycor() > 300:
+        winsound.PlaySound(bounce_audio, winsound.SND_ASYNC)
         ball.sety(300)
         ball.dy *= -1
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     elif ball.ycor() < -300:
+        winsound.PlaySound(bounce_audio, winsound.SND_ASYNC)
         ball.sety(-300)
         ball.dy *= -1
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+        
 
     # Left and right
     if ball.xcor() > 370:
+        winsound.PlaySound(bonus_audio, winsound.SND_ASYNC)
         score_a += 1
         pen.clear()
         pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
         ball.goto(0, 0)
         ball.dx *= -1
-        winsound.PlaySound("bonus.wav", winsound.SND_ASYNC)
+        
 
     elif ball.xcor() < -370:
+        winsound.PlaySound(bonus_audio, winsound.SND_ASYNC)
         score_b += 1
         pen.clear()
         pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
         ball.goto(0, 0)
         ball.dx *= -1
-        winsound.PlaySound("bonus.wav", winsound.SND_ASYNC)
+        
 
     # Paddle and ball collisions
     if ball.xcor() < -330 and ball.xcor() > -340 and ball.ycor() < paddle_a.ycor() + 50 and ball.ycor() > paddle_a.ycor() - 50:
+        winsound.PlaySound(bounce_audio, winsound.SND_ASYNC)
         ball.setx(-330)
         ball.dx *= -1
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+        
 
     elif ball.xcor() > 330 and ball.xcor() < 340 and ball.ycor() < paddle_b.ycor() + 50 and ball.ycor() > paddle_b.ycor() - 50:
+        winsound.PlaySound(bounce_audio, winsound.SND_ASYNC)
         ball.setx(330)
         ball.dx *= -1
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
-
-
