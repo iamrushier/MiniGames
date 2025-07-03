@@ -2,139 +2,130 @@
 import tkinter as tk
 import subprocess as sp
 import sys
-from PIL import Image,ImageTk
+from PIL import Image, ImageTk, ImageEnhance, ImageDraw
+
+# Import blackjack game
 import blackjack
-root=tk.Tk()
+
+root = tk.Tk()
 root.title("Trio Games")
-root.config(bg='white')
-root.geometry("800x600")
-root.resizable(False,False)
+# root.geometry("800x600")
+root.resizable(False, False)
+root.config(bg="#1A1A1A") # Deep dark background
 
-IS_LABEL=True
+# --- Player Name Section ---
+player_name_frame = tk.Frame(root, bg="#2C3E50", padx=10, pady=5)
+player_name_frame.pack(fill="x", side="top")
 
-def start_cubys():
-    sp.Popen([sys.executable, "src/cubys_final.py"])
-def start_flappybird():
-    sp.Popen([sys.executable, "src/flappybird.py"])
-def start_pong():
-    sp.Popen([sys.executable, "src/pong.py"])
+def process_console_icon(image_path, size=(30, 30), border_width=1, border_color="white"):
+    img = Image.open(image_path).convert("RGBA").resize(size, Image.LANCZOS)
+    return ImageTk.PhotoImage(img)
 
-def start_blackjack():
-    game = blackjack.GameScreen(root)
+player_icon_img = process_console_icon("assets/Icons/console_icon.png")
+player_icon = player_icon_img
+player_icon_label = tk.Label(player_name_frame, image=player_icon, bg="white")
+player_icon_label.pack(side="left", padx=(0, 10))
 
+player_name_label = tk.Label(player_name_frame, text="Player: Unknown", fg="#ECF0F1", bg="#2C3E50", font=("Arial", 12, "bold"))
+player_name_label.pack(side="left", expand=True, anchor="w")
 
-try:
-    contents=open("data/player_name.txt",'r+')
-except FileNotFoundError:
-    contents=open("data/player_name.txt",'w')
-    contents.write("New Player")
-    contents.close() 
-content=open("data/player_name.txt",'r+')
-player_name=content.read()
-content.close()
+edit_icon_img = Image.open("assets/Icons/edit.png").resize((20, 20), Image.LANCZOS)
+edit_icon = ImageTk.PhotoImage(edit_icon_img)
+save_icon_img = Image.open("assets/Icons/save.png").resize((20, 20), Image.LANCZOS)
+save_icon = ImageTk.PhotoImage(save_icon_img)
 
-name_frame=tk.Frame(root,bg='white',)
-name_frame.pack(fill='x')
-content_frame=tk.Frame(root,bg='black',)
-content_frame.pack(fill='both',expand=True,padx=5,pady=2.5)
-text_label = tk.Label(name_frame, text='TRIO GAMES', fg='red', bg='black',height=2,font=("Jokerman 36 bold"))
-text_label.pack(fill='x',padx=5,pady=5)
+player_name_entry = tk.Entry(player_name_frame, fg="#E74C3C", font=("Arial", 12), bg="#BDC3C7", width=20)
 
-option_frame=tk.Frame(content_frame,bg='white',)
-option_frame.pack(fill='both',side=tk.LEFT,padx=5,pady=5)
+def load_player_name():
+    try:
+        with open("data/player_name.txt", 'r') as f:
+            name = f.read().strip()
+            if not name:
+                name = "New Player"
+            player_name_label.config(text=f"Player: {name}")
+    except FileNotFoundError:
+        with open("data/player_name.txt", 'w') as f:
+            f.write("New Player")
+        player_name_label.config(text="Player: New Player")
 
+def toggle_edit_name():
+    if player_name_label.winfo_ismapped(): # If label is visible, switch to entry
+        current_name = player_name_label.cget("text").replace("Player: ", "")
+        player_name_label.pack_forget()
+        player_name_entry.delete(0, tk.END)
+        player_name_entry.insert(0, current_name)
+        player_name_entry.pack(side="left", expand=True, anchor="w")
+        edit_button.config(image=save_icon)
+    else: # If entry is visible, save and switch to label
+        new_name = player_name_entry.get().strip()
+        if not new_name:
+            new_name = "Unknown"
+        with open("data/player_name.txt", 'w') as f:
+            f.write(new_name)
+        player_name_entry.pack_forget()
+        player_name_label.config(text=f"Player: {new_name}")
+        player_name_label.pack(side="left", expand=True, anchor="w")
+        edit_button.config(image=edit_icon)
 
-#cubys_logo=tk.PhotoImage(file='CubysLogo.png')
-#cubys_logo=cubys_logo.subsample(3,3)
+edit_button = tk.Button(player_name_frame, image=edit_icon, command=toggle_edit_name, bg="#2C3E50", relief="flat")
+edit_button.pack(side="right")
 
-cubys_logo=Image.open("assets/Icons/CubysLogo.png")
-cubys_logo=cubys_logo.resize((300,160),Image.LANCZOS)
-cubys_logo=ImageTk.PhotoImage(cubys_logo)
+load_player_name() # Load player name on startup
 
-#pong_logo=tk.PhotoImage(file=' Gallery/pong.png')
-#pong_logo=pong_logo.subsample(2,2)
-pong_logo=Image.open("assets/Icons/pong.png")
-pong_logo=pong_logo.resize((150,150),Image.LANCZOS)
-pong_logo=ImageTk.PhotoImage(pong_logo)
+# --- Main Content Frame ---
+main_content_frame = tk.Frame(root, bg="#1A1A1A")
+main_content_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-#flappy_logo=tk.PhotoImage(file='Gallery/flappybird.png')
-#flappy_logo=flappy_logo.subsample(2,2)
-flappy_logo=Image.open("assets/Icons/flappybird.png")
-flappy_logo=flappy_logo.resize((150,150),Image.LANCZOS)
-flappy_logo=ImageTk.PhotoImage(flappy_logo)
+# --- Game Launch Functions ---
+def start_game(game_path):
+    sp.Popen([sys.executable, game_path])
 
-blackjack_logo=Image.open("assets/Icons/blackjack.png")
-blackjack_logo=blackjack_logo.resize((150,150),Image.LANCZOS)
-blackjack_logo=ImageTk.PhotoImage(blackjack_logo)
-mini_frame=tk.Frame(option_frame,bg='white',)
-mini_frame.pack(fill='x',side=tk.TOP,padx=2,pady=2)
+# --- Icon Processing Function ---
+def process_icon(image_path, size=(150, 150)):
+    img = Image.open(image_path).convert("RGB").resize(size, Image.LANCZOS)
+    # Convert to grayscale and then back to RGB to desaturate
+    img = ImageEnhance.Color(img).enhance(0.5) # Reduce saturation
+    return ImageTk.PhotoImage(img)
 
-player_icon=tk.PhotoImage(file='assets/Icons/p2.png')
-player_icon=player_icon.subsample(4,4)
-icon_label=tk.Label(option_frame,image=player_icon)
-icon_label.pack(fill='x',side=tk.TOP)
+# --- Game Icons and Buttons ---
+game_icons = {}
 
-edit_icon=tk.PhotoImage(file='assets/Icons/edit.png')
-edit_icon=edit_icon.subsample(5,5)
+# Create game_frame first
+game_frame = tk.Frame(main_content_frame, bg="#1A1A1A")
+game_frame.pack(expand=True, anchor='center')
 
-save_icon=tk.PhotoImage(file='assets/Icons/save.png')
-save_icon=save_icon.subsample(5,5)
+# Cubys
+game_icons["cubys"] = process_icon("assets/Icons/CubysLogo.png")
+cubys_btn = tk.Button(game_frame, image=game_icons["cubys"], text="Cubys", compound="top",
+                      fg="#ECF0F1", bg="#34495E", relief="flat", font=("Arial", 10, "bold"),
+                      command=lambda: start_game("src/cubys_final.py"))
+cubys_btn.grid(row=0, column=0, padx=15, pady=15, sticky="nsew")
 
-name_frame=tk.Frame(option_frame,bg='white',)
-name_frame.pack(fill='x',side=tk.TOP,padx=2,pady=2)
+# Blackjack
+game_icons["blackjack"] = process_icon("assets/Icons/blackjack.png")
+blackjack_btn = tk.Button(game_frame, image=game_icons["blackjack"], text="Blackjack", compound="top",
+                          fg="#ECF0F1", bg="#34495E", relief="flat", font=("Arial", 10, "bold"),
+                          command=lambda: blackjack.GameScreen(root)) # Direct call to Toplevel
+blackjack_btn.grid(row=0, column=1, padx=15, pady=15, sticky="nsew")
 
-name_label = tk.Label(name_frame,text=player_name,fg='Black',font="arial 10 bold",bg='grey',width=25)
-name_label.pack(side=tk.LEFT,fill='x',padx=2,expand=True)
-name_box=tk.Entry(name_frame,text=player_name,fg='Red',font="arial 10",bg='light grey',width=30)
+# Flappy Bird
+game_icons["flappybird"] = process_icon("assets/Icons/flappybird.png")
+flappy_btn = tk.Button(game_frame, image=game_icons["flappybird"], text="Flappy Bird", compound="top",
+                       fg="#ECF0F1", bg="#34495E", relief="flat", font=("Arial", 10, "bold"),
+                       command=lambda: start_game("src/flappybird.py"))
+flappy_btn.grid(row=1, column=0, padx=15, pady=15, sticky="nsew")
 
-  
+# Pong
+game_icons["pong"] = process_icon("assets/Icons/pong.png")
+pong_btn = tk.Button(game_frame, image=game_icons["pong"], text="Pong", compound="top",
+                     fg="#ECF0F1", bg="#34495E", relief="flat", font=("Arial", 10, "bold"),
+                     command=lambda: start_game("src/pong.py"))
+pong_btn.grid(row=1, column=1, padx=15, pady=15, sticky="nsew")
 
+# Configure columns and rows to expand evenly
+game_frame.grid_columnconfigure(0, weight=1)
+game_frame.grid_columnconfigure(1, weight=1)
+game_frame.grid_rowconfigure(0, weight=1)
+game_frame.grid_rowconfigure(1, weight=1)
 
-
-def change_name():
-    global name_box,name_label,IS_LABEL
-    if IS_LABEL==True:
-      player_name=name_label.cget("text")
-      name_label.destroy()    
-      name_box=tk.Entry(name_frame,text=player_name,fg='Red',font="arial 10 bold",bg='light grey',width=30)
-      name_box.pack(fill='x',side=tk.LEFT,expand=True,padx=2)
-      edit_btn.config(image=save_icon)  
-      IS_LABEL=False	
-    else:
-      player_name=name_box.get()
-      content=open("data/player_name.txt",'w')
-      if player_name.strip()=="":
-        player_name="Unknown"
-      content.write(player_name)
-      content.close()
-      name_box.destroy()
-      name_label = tk.Label(name_frame,text=player_name,fg='Black',font="arial 10 bold",bg='grey',width=25)
-      name_label.pack(side=tk.LEFT,fill='x',padx=2,expand=True)
-      edit_btn.config(image=edit_icon)
-      IS_LABEL=True
-
-edit_btn=tk.Button(name_frame,bg='light grey',fg='black',width=20,height=20,image=edit_icon,command=change_name)
-edit_btn.pack(side=tk.RIGHT,)
-
-button_frame=tk.Frame(content_frame,bg='black',)
-button_frame.pack(fill='both',expand=True,side=tk.LEFT)
-top_btn_frame=tk.Frame(button_frame,bg='white')
-top_btn_frame.pack(fill='both',expand=True,side=tk.TOP,padx=5,pady=5)
-bottom_btn=tk.Frame(button_frame,bg='white')
-bottom_btn.pack(fill='both',expand=True,side=tk.BOTTOM,padx=5,pady=5)
-
-pong_btn=tk.Button(top_btn_frame,image=pong_logo,bg='black',fg='white',command=start_pong)
-pong_btn.pack(fill='both',expand=True,padx=20,pady=20,side=tk.LEFT,anchor=tk.NW)
-
-flappy_btn=tk.Button(top_btn_frame,image=flappy_logo,bg='black',fg='white',command=start_flappybird)
-flappy_btn.pack( fill='both',expand=True, padx=20,pady=20,side=tk.LEFT,anchor=tk.NE)
-
-blackjack_btn=tk.Button(top_btn_frame,image=blackjack_logo,bg='black',fg='white',command=start_blackjack)
-blackjack_btn.pack( fill='both',expand=True, padx=20,pady=20,side=tk.LEFT,anchor=tk.NE)
-
-cubys_btn=tk.Button(bottom_btn,width=20,image=cubys_logo,command=start_cubys,bg='black',fg='white')
-cubys_btn.pack(fill='both',expand=True,padx=20,pady=20,side=tk.BOTTOM,)
-
-icon_label = tk.Label(mini_frame,text="Menu",fg='white',font="arial 10 bold",bg='black',width=30,relief='sunken')
-icon_label.pack()
 root.mainloop()

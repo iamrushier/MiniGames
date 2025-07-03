@@ -1,19 +1,6 @@
-Exception in Tkinter callback
 Traceback (most recent call last):
-  File "C:\Users\Rushikesh\AppData\Local\Programs\Python\Python312\Lib\tkinter\__init__.py", line 1968, in __call__
-    return self.func(*args)
-           ^^^^^^^^^^^^^^^^
-  File "d:\Workspace\Projects\MiniGames\src\main.py", line 23, in start_blackjack
-    game = blackjack.GameScreen()
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "d:\Workspace\Projects\MiniGames\src\blackjack.py", line 198, in __init__
-    self.display_table()
-  File "d:\Workspace\Projects\MiniGames\src\blackjack.py", line 210, in display_table
-    self.game_screen.create_image((400, 250), image=self.tabletop_image)
-  File "C:\Users\Rushikesh\AppData\Local\Programs\Python\Python312\Lib\tkinter\__init__.py", line 2875, in create_image
-    return self._create('image', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Rushikesh\AppData\Local\Programs\Python\Python312\Lib\tkinter\__init__.py", line 2861, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: image "pyimage16" doesn't exist
+  File "d:\Workspace\Projects\MiniGames\src\main.py", line 135, in <module>
+    cubys_btn.grid(row=0, column=0, padx=15, pady=15, sticky="nsew")
+  File "C:\Users\Rushikesh\AppData\Local\Programs\Python\Python312\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame2 which already has slaves managed by pack
