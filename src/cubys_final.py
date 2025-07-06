@@ -1,6 +1,7 @@
 # Created by Rushikesh Surve
 import tkinter as tk
 import os
+import json
 import random
 import tkinter.font as tkfont
 
@@ -68,60 +69,34 @@ high_3=tk.Label(menu_frame, text="1.   0", font=('arial',10),anchor='w')
 high_3.place(x=10, y=280,anchor='sw')
 high_3.config(width=32)
 
-try:
-    contents=open("data/cubys_highscore.txt",'r+')
-except FileNotFoundError:
-    contents=open("data/cubys_highscore.txt",'w')
-    contents.write(str([0,0,0]))
-    contents.close() 
-contents=open("data/cubys_highscore.txt",'r+')
-highscores=eval(contents.read())
-highscores.append(score)
-highscores=sorted(highscores)
-highscores.reverse()
-for i in range(len(highscores)-1,2,-1):
-    highscores.remove(highscores[i])
-high_1.config(text="1. "+str(highscores[0]))
-high_2.config(text="2. "+str(highscores[1]))
-high_3.config(text="3. "+str(highscores[2]))
-contents.close()
-os.remove('data/cubys_highscore.txt')
-contents=open("data/cubys_highscore.txt",'w')
-contents.write(str(highscores))
-contents.close()
 
 canvas = tk.Canvas(container2, bg=BACKGROUND_COLOR,height=GAME_HEIGHT,width=GAME_WIDTH)
 canvas.create_text(GAME_WIDTH/2, GAME_HEIGHT/2,font=('helvetica',70),text="Start",fill="Green",tag='startgame')
 canvas.grid(row=0,column=0)
 
 
-def update_highscore(score):
+def update_highscore(score=None):
     try:
-        contents=open("data/cubys_highscore.txt",'r+')
-        contents.close()
-    except FileNotFoundError:
-        contents=open("data/cubys_highscore.txt",'w')
-        contents.write(str([0,0,0]))
-        contents.close() 
-    contents=open("data/cubys_highscore.txt",'r+')
-    highscores=eval(contents.read())
-    highscores.append(score)
-    highscores=sorted(highscores)
-    highscores.reverse()
-    for i in range(len(highscores)-1,2,-1):
-        highscores.remove(highscores[i])
-    high_1.config(text="1. "+str(highscores[0]))
-    high_2.config(text="2. "+str(highscores[1]))
-    high_3.config(text="3. "+str(highscores[2]))
-    contents.close()
-    os.remove('data/cubys_highscore.txt')
-    contents=open("data/cubys_highscore.txt",'w')
-    contents.write(str(highscores))
-    contents.close()
+        with open("data/cubys_highscore.txt", 'r') as f:
+            highscores = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        highscores = [0, 0, 0]
+
+    if score is not None:
+        highscores.append(score)
+        highscores = sorted(highscores, reverse=True)[:3]
+
+    high_1.config(text=f"1. {highscores[0]}")
+    high_2.config(text=f"2. {highscores[1]}")
+    high_3.config(text=f"3. {highscores[2]}")
+
+    with open("data/cubys_highscore.txt", 'w') as f:
+        json.dump(highscores, f)
     
+update_highscore()
 
 def clear():
-      global ZER0,STARTED,score
+      global ZERO,STARTED,score
       STARTED=True
       score=ZERO
       canvas.delete(tk.ALL)

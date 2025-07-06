@@ -1,0 +1,15 @@
+# Virtual Environment
+Lib/
+Scripts/
+include/
+pyvenv.cfg
+
+# IDE
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Data
+data/cubys_highscore.txt
