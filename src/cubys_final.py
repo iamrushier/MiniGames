@@ -10,7 +10,7 @@ STARTED=False
 ZERO=0
 GAME_WIDTH = 600
 GAME_HEIGHT = 400
-SPEED = 190
+SPEED = 230
 SPACE_SIZE = 50
 BODY_PARTS = 3
 SNAKE_COLOR = "#00FF00"   #Green
@@ -26,6 +26,7 @@ for x in range(0, int((GAME_WIDTH/SPACE_SIZE))):
 
 score = ZERO
 direction='down'
+direction_locked=False
 window=tk.Tk(className='Cuby Snake') #
 window.geometry("923x575")
 window.configure(bg='black')
@@ -147,6 +148,8 @@ def game_over():
     set_button()
 
 def next_turn(snake,food):
+    global direction_locked
+    direction_locked = False
     x,y=snake.coordinates[0]
     if direction=='up':
         y-=SPACE_SIZE
@@ -178,19 +181,22 @@ def next_turn(snake,food):
         window.after(SPEED,next_turn,snake,food)
 
 def change_direction(new_direction):
-    global direction
-    if new_direction=='left':
-        if direction!='right':
-            direction=new_direction
-    elif new_direction=='right':
-        if direction!='left':
-            direction=new_direction
-    elif new_direction=='up':
-        if direction!='down':
-            direction=new_direction
-    elif new_direction=='down':
-        if direction!='up':
-            direction=new_direction
+    global direction, direction_locked
+    if direction_locked:
+        return
+
+    if new_direction == 'left' and direction != 'right':
+        direction = new_direction
+        direction_locked = True
+    elif new_direction == 'right' and direction != 'left':
+        direction = new_direction
+        direction_locked = True
+    elif new_direction == 'up' and direction != 'down':
+        direction = new_direction
+        direction_locked = True
+    elif new_direction == 'down' and direction != 'up':
+        direction = new_direction
+        direction_locked = True
 
 def check_collisions(snake):
     x,y=snake.coordinates[0]
