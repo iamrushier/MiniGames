@@ -2,38 +2,45 @@ global position
 position=0       
 
 class L:
-    coordinates=[(4,1),(1,2),(2,2),(3,2),(4,2)]
+    coordinates=[(0,1),(0,2),(1,2),(2,2),(3,2)]
     def __init__(self):
-         self.coordinates=[(4,1),(1,2),(2,2),(3,2),(4,2)]  
+         self.coordinates=[(0,1),(0,2),(1,2),(2,2),(3,2)]
     def position_0(self,x,y):
-        self.coordinates=[ (x+1,y-1), (x-2,y), (x-1,y), (x,y), (x+1,y) ]
+        self.coordinates=[ (x+1,y+1), (x-2,y), (x-1,y), (x,y), (x+1,y) ]
+        #[(3,3),(0,2),(1,2),(2,2),(3,2)]
         u,v=x,y
     def position_1(self,x,y):
-        self.coordinates=[ (x+1,y+1), (x,y-2), (x,y-1), (x,y), (x,y+1) ]
+        self.coordinates=[ (x-1,y+1), (x,y-2), (x,y-1), (x,y), (x,y+1) ]
+        #[(1,3),(2,0),(2,1),(2,2),(2,3)]
     def position_2(self,x,y):
         self.coordinates=[ (x-2,y-1), (x+1,y), (x,y), (x-1,y), (x-2,y) ]
+        #[(0,1),(3,2),(2,2),(1,2),(0,2)]
     def position_3(self,x,y):
-        self.coordinates=[ (x-1,y-2), (x,y+1), (x,y), (x,y-1), (x,y-2) ]
+        self.coordinates=[ (x+1,y-2), (x,y+1), (x,y), (x,y-1), (x,y-2) ]
+        #[(3,0),(2,3),(2,2),(2,1),(2,0)]
 
         
 class J:
-    coordinates=[(0,1),(0,2),(1,2),(2,2),(3,2)]
+    coordinates=[(4,1),(1,2),(2,2),(3,2),(4,2)] 
     def __init__(self):
-        self.coordinates=[(0,1),(0,2),(1,2),(2,2),(3,2)]
-         
+        self.coordinates=[(4,1),(1,2),(2,2),(3,2),(4,2)] 
+        
     def position_0(self,x,y):
-        self.coordinates=[ (x-2,y-1), (x-2,y), (x-1,y), (x,y), (x+1,y) ]
-        u,v=x,y
+        self.coordinates=[ (x-2,y+1), (x-2,y), (x-1,y), (x,y), (x+1,y) ]
+        u,v=x,y #[(0,3),(0,2),(1,2),(2,2),(3,2)]
         
     def position_1(self,x,y):
-        self.coordinates=[ (x+1,y-2), (x,y-2), (x,y-1), (x,y), (x,y+1) ]
+        self.coordinates=[ (x-1,y-2), (x,y-2), (x,y-1), (x,y), (x,y+1) ]
+        #[(1,0),(2,0),(2,1),(2,2),(2,3)]
         
     def position_2(self,x,y):
         self.coordinates=[ (x+1,y-1), (x+1,y), (x,y), (x-1,y), (x-2,y) ]
+        #[(3,1),(3,2),(2,2),(1,2),(0,2)]
         
     def position_3(self,x,y):
-        self.coordinates=[ (x-1,y+1), (x,y+1), (x,y), (x,y-1), (x,y-2) ]
-    
+        self.coordinates=[ (x+1,y+1), (x,y+1), (x,y), (x,y-1), (x,y-2) ]
+        #[(3,3),(2,3),(2,2),(2,1),(2,0)]
+
 class Z:
     coordinates=[(1,1),(2,1),(2,2),(3,2)]
     def __init__(self):
