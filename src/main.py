@@ -129,10 +129,18 @@ tetris_btn = tk.Button(game_frame, image=game_icons["tetris"], text="Tetris", co
                          command=lambda: start_game("src/tetris.py"))
 tetris_btn.grid(row=2, column=0, padx=15, pady=15, sticky="nsew")
 
+# Chess
+game_icons["chess"] = process_icon("assets/Icons/chess.png")
+chess_btn = tk.Button(game_frame, image=game_icons["chess"], text="Chess", compound="top",
+                        fg="#ECF0F1", bg="#34495E", relief="flat", font=("Arial", 10, "bold"),
+                        command=lambda: start_game("src/chess-game/main.py"))
+chess_btn.grid(row=2, column=1, padx=15, pady=15, sticky="nsew")
+
 # Configure columns and rows to expand evenly
 game_frame.grid_columnconfigure(0, weight=1)
 game_frame.grid_columnconfigure(1, weight=1)
 game_frame.grid_rowconfigure(0, weight=1)
 game_frame.grid_rowconfigure(1, weight=1)
+game_frame.grid_rowconfigure(2, weight=1)
 
 root.mainloop()
